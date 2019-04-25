@@ -1,0 +1,6 @@
+framework module Pods_CloneFlixPracticeTests {
+  umbrella header "Pods-CloneFlixPracticeTests-umbrella.h"
+
+  export *
+  module * { export * }
+}
