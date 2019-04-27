@@ -20,6 +20,8 @@
 		E6ED38EA226E16A8005BA968 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED38E9226E16A8005BA968 /* DetailViewController.swift */; };
 		E6ED38ED226E2DDB005BA968 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED38EC226E2DDB005BA968 /* MainTabBarController.swift */; };
 		E6ED9B8E22723DA900FE6B12 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED9B8D22723DA900FE6B12 /* Alamofire.swift */; };
+		E6ED9B902273A41B00FE6B12 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED9B8F2273A41B00FE6B12 /* MovieTableViewCell.swift */; };
+		E6ED9B922274238A00FE6B12 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED9B912274238A00FE6B12 /* MovieCollectionViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		E6ED38E9226E16A8005BA968 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
 		E6ED38EC226E2DDB005BA968 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		E6ED9B8D22723DA900FE6B12 /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
+		E6ED9B8F2273A41B00FE6B12 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
+		E6ED9B912274238A00FE6B12 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
 		EC71F47B78FBDB0234703296 /* Pods_CloneFlixPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloneFlixPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -176,6 +180,8 @@
 				E6ED38E7226E1673005BA968 /* SearchViewController.swift */,
 				E6ED38E9226E16A8005BA968 /* DetailViewController.swift */,
 				E6ED38EC226E2DDB005BA968 /* MainTabBarController.swift */,
+				E6ED9B8F2273A41B00FE6B12 /* MovieTableViewCell.swift */,
+				E6ED9B912274238A00FE6B12 /* MovieCollectionViewCell.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -425,10 +431,12 @@
 			files = (
 				E6ED9B8E22723DA900FE6B12 /* Alamofire.swift in Sources */,
 				E6ED38E8226E1673005BA968 /* SearchViewController.swift in Sources */,
+				E6ED9B902273A41B00FE6B12 /* MovieTableViewCell.swift in Sources */,
 				E6ED38B6226E15F1005BA968 /* AppDelegate.swift in Sources */,
 				E6ED38ED226E2DDB005BA968 /* MainTabBarController.swift in Sources */,
 				E6ED38E6226E164D005BA968 /* HomeViewController.swift in Sources */,
 				E6ED38EA226E16A8005BA968 /* DetailViewController.swift in Sources */,
+				E6ED9B922274238A00FE6B12 /* MovieCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

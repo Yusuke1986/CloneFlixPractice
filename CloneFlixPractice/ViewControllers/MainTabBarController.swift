@@ -21,6 +21,7 @@ class MainTabBarController: UITabBarController {
         let searchViewController = SearchViewController()
         let detailViewController = DetailViewController()
         
+        
         let homeNavController = UINavigationController(rootViewController: homeViewController)
         self.homeNavController = homeNavController
         

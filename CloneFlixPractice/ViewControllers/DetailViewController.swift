@@ -24,7 +24,7 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
 
         view = UIView()
-        view.backgroundColor = .white
+        view.backgroundColor = .darkGray
         
         
         if selectedURL != nil
