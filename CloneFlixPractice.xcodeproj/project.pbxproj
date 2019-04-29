@@ -22,6 +22,7 @@
 		E6ED9B8E22723DA900FE6B12 /* Alamofire.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED9B8D22723DA900FE6B12 /* Alamofire.swift */; };
 		E6ED9B902273A41B00FE6B12 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED9B8F2273A41B00FE6B12 /* MovieTableViewCell.swift */; };
 		E6ED9B922274238A00FE6B12 /* MovieCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6ED9B912274238A00FE6B12 /* MovieCollectionViewCell.swift */; };
+		E6EFF00E22775C8800068D13 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = E6EFF00D22775C8800068D13 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 		E6ED9B8D22723DA900FE6B12 /* Alamofire.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alamofire.swift; sourceTree = "<group>"; };
 		E6ED9B8F2273A41B00FE6B12 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		E6ED9B912274238A00FE6B12 /* MovieCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieCollectionViewCell.swift; sourceTree = "<group>"; };
+		E6EFF00D22775C8800068D13 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		EC71F47B78FBDB0234703296 /* Pods_CloneFlixPractice.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CloneFlixPractice.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -125,6 +127,7 @@
 		E6ED38A9226E15F1005BA968 = {
 			isa = PBXGroup;
 			children = (
+				E6EFF00D22775C8800068D13 /* README.md */,
 				E6ED38B4226E15F1005BA968 /* CloneFlixPractice */,
 				E6ED38C9226E15F2005BA968 /* CloneFlixPracticeTests */,
 				E6ED38D4226E15F2005BA968 /* CloneFlixPracticeUITests */,
@@ -312,6 +315,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E6EFF00E22775C8800068D13 /* README.md in Resources */,
 				E6ED38C0226E15F2005BA968 /* LaunchScreen.storyboard in Resources */,
 				E6ED38BD226E15F2005BA968 /* Assets.xcassets in Resources */,
 			);

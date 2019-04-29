@@ -11,9 +11,7 @@ import UIKit
 class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollectionViewDelegate {
     
     var collectionView: UICollectionView?
-    var imgView = UIImageView()
     var imgList = [UIImage]()
-    //var lblTitle = UILabel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -28,28 +26,24 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier )
+
+        let flowLayout = UICollectionViewFlowLayout()
+        
+        flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
+        
+        flowLayout.itemSize = CGSize(width: 120, height: 180)
+        
+        
+        collectionView = UICollectionView(frame: self.contentView.bounds, collectionViewLayout: flowLayout)
+        contentView.addSubview(collectionView!)
+        collectionView?.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "cell")
         
         collectionView?.delegate = self
         collectionView?.dataSource = self
         
-        let flowLayout:UICollectionViewFlowLayout = UICollectionViewFlowLayout()
-        
-        flowLayout.scrollDirection = UICollectionView.ScrollDirection.vertical
-        collectionView = UICollectionView(frame: self.contentView.bounds, collectionViewLayout: flowLayout)
-        contentView.addSubview(collectionView!)
-        collectionView?.register(MovieCollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
-//        contentView.addSubview(imgView)
-//        contentView.addSubview(lblTitle)
-        
-        imgView.translatesAutoresizingMaskIntoConstraints = false
-        imgView.centerXAnchor.constraint(equalTo: self.centerXAnchor).isActive = true
-        imgView.widthAnchor.constraint(equalToConstant: 120).isActive = true
-        imgView.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        
-//        lblTitle.translatesAutoresizingMaskIntoConstraints = false
-//        lblTitle.leadingAnchor.constraint(equalTo: self.leadingAnchor).isActive = true
-//        lblTitle.widthAnchor.constraint(equalToConstant: 80).isActive = true
-//        lblTitle.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        collectionView?.translatesAutoresizingMaskIntoConstraints = false
+        collectionView?.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
+        collectionView?.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
         
     }
     
@@ -59,23 +53,42 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        let collection = collectionView.dequeueReusableCell(withReuseIdentifier: "collection", for: indexPath) as! MovieCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieCollectionViewCell
+
+        if imgList.count > indexPath.row
+        {
+            cell.configure(img: imgList[indexPath.row])
+        }
         
-        collection.setupcell(imglist: imgList)
-        
-        return collection
+        return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: 180, height: 180)
+    }
+    
+    
     
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCell(imglist: [UIImage]) {
-        
+    func configure(imglist: [UIImage]) {
+       
         for img in imglist {
             imgList.append(img)
         }
+        
+        
+       
+//        collectionView?.performBatchUpdates({ () -> Void in
+//            
+//            let items = [IndexPath(item: 0, section: 0)]
+//            self.collectionView?.insertItems(at: items)
+//        }, completion:nil)
+        
+        
     }
     
 }

@@ -7,13 +7,21 @@
 //
 
 import UIKit
+import Alamofire
+
+enum directFlix: String {
+    case search = "https://directflix.vnz.la/titles/search?q="
+    case tvshow = "https://directflix.vnz.la/titles/tv-shows"
+    case movie = "https://directflix.vnz.la/titles/movies"
+    case recentlyAdded = "https://directflix.vnz.la/titles/recently-added"
+    case trendingNow = "https://directflix.vnz.la/titles/trending-now"
+    
+}
+
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tableView: UITableView?
-    var imgMovie1 = UIImageView()
-    var imgMovie2 = UIImageView()
-    var imgMovie3 = UIImageView()
     var imgList = [UIImage]()
     
     override func viewDidLoad() {
@@ -21,6 +29,36 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         
         view = UIView()
         view.backgroundColor = .darkGray
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        let queue = DispatchQueue.global(qos: .utility)
+        
+        request(directFlix.movie.rawValue , method: .get).responseJSON(queue: queue, completionHandler: { (response) in
+        
+                let decoder: JSONDecoder = JSONDecoder()
+                do {
+                    let searchMovie = try decoder.decode([SearchMovie].self, from: response.data!)
+                    
+                    for poster in searchMovie
+                    {
+                        let url: NSURL = NSURL(string:poster.poster_url ?? "")!
+                        let imageData :NSData = try NSData(contentsOf: url as URL)
+                        let imgView: UIImage = UIImage(data: imageData as Data) ?? UIImage()
+                        self.imgList.append(imgView)
+
+                        if self.imgList.count > 10 {
+                            break
+                        }
+                    }
+                    
+                    semaphore.signal()
+                    
+                    
+                } catch {
+                    print("error:", error.localizedDescription)
+                }
+            })
+            semaphore.wait()
         
         // Process to make navigation transparent ナビゲーションを透明にする処理
         //self.navigationController!.navigationBar.alpha = 0.5
@@ -43,25 +81,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         }()
         tableView?.register(MovieTableViewCell.self, forCellReuseIdentifier: "cell")
         
-        //for test
-        let imageSample:UIImage = UIImage(named:"sample")! //poster_url
-        imgMovie1 = UIImageView(image:imageSample)
-        imgMovie1.isUserInteractionEnabled = true
-        imgMovie1.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(HomeViewController.imageViewTapped(_:))))
-        
-        //for test
-        let imageSample2:UIImage = UIImage(named:"sample2")! //poster_url
-        imgMovie2 = UIImageView(image:imageSample2)
-        
-        //for test
-        let imageSample3:UIImage = UIImage(named:"sample3")! //poster_url
-        imgMovie3 = UIImageView(image:imageSample3)
-        
-        imgList.append(imageSample)
-        imgList.append(imageSample2)
-        imgList.append(imageSample3)
-
-
         loadConstraints()
     }
     
@@ -70,25 +89,18 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.didReceiveMemoryWarning()
     }
     
-    //ImageView click event
-    @objc func imageViewTapped(_ sender: UITapGestureRecognizer) {
-        
-        let nextvc = DetailViewController()
-        
-        nextvc.selectedURL = "https://directflix.vnz.la/titles/search?q=marvel"
-        self.navigationController?.pushViewController(nextvc, animated: false)
-    }
+    
     
     //TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.imgList.count
+        return 6
     }
     
     //TableView Cell Format
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! MovieTableViewCell
-        cell.setCell(imglist: imgList)
+        cell.configure(imglist: imgList)
         self.tableView?.rowHeight = 180
         return cell
     }
@@ -109,19 +121,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
             tableView.widthAnchor.constraint(equalTo: view.widthAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
-        
-        imgMovie1.translatesAutoresizingMaskIntoConstraints = false
-        imgMovie1.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        imgMovie1.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
-        imgMovie2.translatesAutoresizingMaskIntoConstraints = false
-        imgMovie2.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        imgMovie2.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
-        imgMovie2.translatesAutoresizingMaskIntoConstraints = false
-        imgMovie2.widthAnchor.constraint(equalToConstant: 150).isActive = true
-        imgMovie2.heightAnchor.constraint(equalToConstant: 200).isActive = true
-        
     }
     
 }

@@ -35,8 +35,30 @@ class SearchViewController: UIViewController {
             searchBar.widthAnchor.constraint(equalTo: view.widthAnchor),
             searchBar.heightAnchor.constraint(equalToConstant: 60)
             ])
+    }
+}
+
+extension SearchViewController: UISearchBarDelegate {
+    
+    func searchBarCancelButtonClicked(_searchBar:UISearchBar) {
+
         
     }
     
     
+    func searchBar(_searchBar:UISearchBar,selectedScopeButtonIndexDidChangeselectedScope:Int) {
+        //スコープのインデックスを取得
+        
+    }
+    
+    func searchBar(_searchBar:UISearchBar,textDidChangesearchText:String) {
+        //再建策の処理など
+        
+    }
+    
+    
+    func searchBarSearchButtonClicked(_searchBar:UISearchBar) {
+        searchBar.text = "test"
+    
+    }
 }
