@@ -7,10 +7,16 @@
 //
 
 import UIKit
+import Alamofire
 
-class SearchViewController: UIViewController {
+class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
 
-        var searchBar = UISearchBar()
+    var searchBar = UISearchBar()
+    let statusBarHeight = UIApplication.shared.statusBarFrame.height  // ステータスバーの高さ
+    let cellId = "itemCell" // セル再利用のための固有名
+    
+    var imgList = [UIImage]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +25,7 @@ class SearchViewController: UIViewController {
         view.backgroundColor = .darkGray
         
         //searchBar = UISearchBar(frame:CGRect(x:0.0,y:100.0,width:self.view.bounds.size.width,height:44.0))
-        //searchBar.delegate = self
+        searchBar.delegate = self
         searchBar.showsSearchResultsButton = true
         searchBar.keyboardType = UIKeyboardType.default
     
@@ -29,36 +35,156 @@ class SearchViewController: UIViewController {
         searchBar.barTintColor = .black
         self.view.addSubview(searchBar)
         
+        
+//        let collectionView = UICollectionView(
+//            frame: CGRect(x: 0, y: statusBarHeight, width: self.view.frame.width, height: self.view.frame.size.height - statusBarHeight),
+//            collectionViewLayout: UICollectionViewFlowLayout())
+//
+//        collectionView.backgroundColor = UIColor.white  // アイテム表示領域を白色に設定
+//        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)  // セルの再利用のための設定
+//
+//        collectionView.delegate = self
+//        collectionView.dataSource = self
+//        self.view.addSubview(collectionView)
+        
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraints([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchBar.widthAnchor.constraint(equalTo: view.widthAnchor),
             searchBar.heightAnchor.constraint(equalToConstant: 60)
             ])
+        
+//        collectionView.translatesAutoresizingMaskIntoConstraints = false
+//        view.addConstraints([
+//            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+//            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
+//            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+//            ])
     }
+    
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        
+        let semaphore = DispatchSemaphore(value: 0)
+        let queue = DispatchQueue.global(qos: .utility)
+        let searchText = "\(directFlix.search.rawValue)\(searchBar.text!)"
+        
+        request(searchText , method: .get).responseJSON(queue: queue, completionHandler: { (response) in
+            
+            let decoder: JSONDecoder = JSONDecoder()
+            do {
+                let searchMovie = try decoder.decode([SearchMovie].self, from: response.data!)
+                
+                for poster in searchMovie
+                {
+                    let url: NSURL = NSURL(string:poster.poster_url ?? "")!
+                    let imageData :NSData = try NSData(contentsOf: url as URL)
+                    let imgView: UIImage = UIImage(data: imageData as Data) ?? UIImage()
+                    self.imgList.append(imgView)
+                    
+                    if self.imgList.count > 10 {
+                        break
+                    }
+                }
+                
+                semaphore.signal()
+                
+                
+            } catch {
+                print("error:", error.localizedDescription)
+            }
+        })
+        semaphore.wait()
+        
+        let collectionView = UICollectionView(
+            frame: CGRect(x: 0, y: statusBarHeight, width: self.view.frame.width, height: self.view.frame.size.height - statusBarHeight),
+            collectionViewLayout: UICollectionViewFlowLayout())
+        
+        collectionView.backgroundColor = UIColor.darkGray
+        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)  // セルの再利用のための設定
+        
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        self.view.addSubview(collectionView)
+        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        view.addConstraints([
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+            ])
+        
+        searchBar.text = "omedetou"
+    }
+    
+    
+    
+    // 表示するアイテムの数を設定（UICollectionViewDataSource が必要）
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.imgList.count
+    }
+    
+    // アイテムの大きさを設定（UICollectionViewDelegateFlowLayout が必要）
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        
+        let size = self.view.frame.width / 4
+        
+        return CGSize(width: size, height: size)
+    }
+    
+    // アイテム表示領域全体の上下左右の余白を設定（UICollectionViewDelegateFlowLayout が必要）
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        
+        let inset =  (self.view.frame.width / 3) / 4
+        
+        return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
+    }
+    
+    // アイテムの上下の余白の最小値を設定（UICollectionViewDelegateFlowLayout が必要）
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return (self.view.frame.width / 4) / 3
+    }
+    
+    // アイテムの表示内容（UICollectionViewDataSource が必要）
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        
+        // アイテムを作成
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
+        cell.backgroundColor = UIColor.lightGray
+        
+        // アイテムセルを再利用する際、前に追加していた要素（今回はラベル）を削除する
+        for subview in cell.contentView.subviews {
+            subview.removeFromSuperview()
+        }
+        
+        // テキストラベルを設定して表示
+//        let label = UILabel()
+//        label.font = UIFont(name: "Arial", size: 24)
+//        label.text = "Item \(indexPath.row)"
+//        label.sizeToFit()
+//        label.center = cell.contentView.center
+//        cell.contentView.addSubview(label)
+        
+        let imgView = UIImageView(image: imgList[indexPath.row])
+        
+        cell.contentView.addSubview(imgView)
+        
+        imgView.translatesAutoresizingMaskIntoConstraints = false
+        imgView.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
+        imgView.widthAnchor.constraint(equalToConstant: 120).isActive = true
+        imgView.heightAnchor.constraint(equalToConstant: 180).isActive = true
+        
+        
+        return cell
+    }
+    
+    // アイテムタッチ時の処理（UICollectionViewDelegate が必要）
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(indexPath.row)
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+    }
+    
 }
 
-extension SearchViewController: UISearchBarDelegate {
-    
-    func searchBarCancelButtonClicked(_searchBar:UISearchBar) {
-
-        
-    }
-    
-    
-    func searchBar(_searchBar:UISearchBar,selectedScopeButtonIndexDidChangeselectedScope:Int) {
-        //スコープのインデックスを取得
-        
-    }
-    
-    func searchBar(_searchBar:UISearchBar,textDidChangesearchText:String) {
-        //再建策の処理など
-        
-    }
-    
-    
-    func searchBarSearchButtonClicked(_searchBar:UISearchBar) {
-        searchBar.text = "test"
-    
-    }
-}

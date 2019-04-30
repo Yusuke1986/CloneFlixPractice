@@ -11,6 +11,8 @@ import Alamofire
 
 class DetailViewController: UIViewController {
 
+
+    
     var imgMovie = UIImageView()
     var lblInfo = UILabel()
     var btnPlay = UIButton()

@@ -30,6 +30,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         view = UIView()
         view.backgroundColor = .darkGray
         
+        
         let semaphore = DispatchSemaphore(value: 0)
         let queue = DispatchQueue.global(qos: .utility)
         
@@ -100,15 +101,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! MovieTableViewCell
-        cell.configure(imglist: imgList)
+        cell.configure(imglist: imgList, imageTap: self.imageTap)
         self.tableView?.rowHeight = 180
         return cell
     }
+    
+    func imageTap() {
+        
+        let nextvc = DetailViewController()
+        self.navigationController?.pushViewController(nextvc, animated: false)
+    }
+    
     
     //TableView Row select
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
+    
+//    func selectedPoster() {
+//
+//        let nextvc = DetailViewController()
+//        self.navigationController?.pushViewController(nextvc, animated: false)
+//    }
     
     
     //Constraints

@@ -22,7 +22,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
         
         
         imgView.isUserInteractionEnabled = true
-        imgView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(MovieCollectionViewCell.imageViewTapped(_:))))
         
         self.addSubview(imgView)
         
@@ -42,13 +41,4 @@ class MovieCollectionViewCell: UICollectionViewCell {
         imgView.heightAnchor.constraint(equalToConstant: 180).isActive = true
     }
     
-    
-    //ImageView click event
-    @objc func imageViewTapped(_ sender: UITapGestureRecognizer) {
-        
-        let nextvc = DetailViewController()
-        
-        nextvc.selectedURL = "https://directflix.vnz.la/titles/search?q=marvel"
-        //self.navigationController?.pushViewController(nextvc, animated: false)
-    }
 }

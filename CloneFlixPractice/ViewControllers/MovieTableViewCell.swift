@@ -12,6 +12,7 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     
     var collectionView: UICollectionView?
     var imgList = [UIImage]()
+    var imageTap: (() -> Void)?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -54,7 +55,7 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieCollectionViewCell
-
+        
         if imgList.count > indexPath.row
         {
             cell.configure(img: imgList[indexPath.row])
@@ -67,18 +68,23 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
         return CGSize(width: 180, height: 180)
     }
     
-    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.imageTap?()
+    }
     
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(imglist: [UIImage]) {
+    func configure(imglist: [UIImage], imageTap: @escaping () -> Void) {
        
+        self.imageTap = imageTap
         for img in imglist {
             imgList.append(img)
         }
+        
+        
         
         
        
