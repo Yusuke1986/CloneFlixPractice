@@ -15,7 +15,6 @@ enum directFlix: String {
     case movie = "https://directflix.vnz.la/titles/movies"
     case recentlyAdded = "https://directflix.vnz.la/titles/recently-added"
     case trendingNow = "https://directflix.vnz.la/titles/trending-now"
-    
 }
 
 
@@ -23,6 +22,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
 
     var tableView: UITableView?
     var imgList = [UIImage]()
+    var selectedURL: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -94,7 +94,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 6
+        return 2
     }
     
     //TableView Cell Format
@@ -109,6 +109,7 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func imageTap() {
         
         let nextvc = DetailViewController()
+        nextvc.selectedURL = selectedURL
         self.navigationController?.pushViewController(nextvc, animated: false)
     }
     
@@ -117,13 +118,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
     }
-    
-//    func selectedPoster() {
-//
-//        let nextvc = DetailViewController()
-//        self.navigationController?.pushViewController(nextvc, animated: false)
-//    }
-    
     
     //Constraints
     func loadConstraints() {

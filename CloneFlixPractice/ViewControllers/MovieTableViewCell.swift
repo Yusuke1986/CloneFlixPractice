@@ -29,11 +29,8 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
         super.init(style: .subtitle, reuseIdentifier: reuseIdentifier )
 
         let flowLayout = UICollectionViewFlowLayout()
-        
         flowLayout.scrollDirection = UICollectionView.ScrollDirection.horizontal
-        
         flowLayout.itemSize = CGSize(width: 120, height: 180)
-        
         
         collectionView = UICollectionView(frame: self.contentView.bounds, collectionViewLayout: flowLayout)
         contentView.addSubview(collectionView!)
@@ -69,7 +66,10 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
+        //self.selectedURL = ""
         self.imageTap?()
+        
     }
     
     
