@@ -82,14 +82,17 @@ class DetailViewController: UIViewController {
         
         //TextDetail
         txtDetail.isScrollEnabled = false
+        txtDetail.textColor = .white
         txtDetail.font = .systemFont(ofSize: 20)
         txtDetail.backgroundColor = .darkGray
         view.addSubview(txtDetail)
         
         //Label Actor
+        lblActors.textColor = .white
         view.addSubview(lblActors)
         
         //Label Director
+        lblDirector.textColor = .white
         view.addSubview(lblDirector)
         
         loadConstraints()

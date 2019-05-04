@@ -40,6 +40,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
             searchBar.widthAnchor.constraint(equalTo: view.widthAnchor),
             searchBar.heightAnchor.constraint(equalToConstant: 60)
             ])
+        
+        self.view.becomeFirstResponder()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

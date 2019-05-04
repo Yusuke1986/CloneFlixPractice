@@ -97,7 +97,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         self.navigationController?.pushViewController(nextvc, animated: false)
     }
     
-    
     //TableView Row select
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
