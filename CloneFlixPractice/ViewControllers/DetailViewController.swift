@@ -10,8 +10,6 @@ import UIKit
 import Alamofire
 
 class DetailViewController: UIViewController {
-
-
     
     var imgMovie = UIImageView()
     var lblInfo = UILabel()
@@ -28,6 +26,7 @@ class DetailViewController: UIViewController {
         view = UIView()
         view.backgroundColor = .darkGray
         
+        //let params = ["id": "c7cca58c-e0e9-44c5-89e9-2de265409cc6"] as [String : Any]
         
         if selectedURL != nil
         {
@@ -80,7 +79,9 @@ class DetailViewController: UIViewController {
         view.addSubview(btnPlay)
         
         //TextDetail
+        txtDetail.isScrollEnabled = false
         txtDetail.font = .systemFont(ofSize: 20)
+        txtDetail.backgroundColor = .darkGray
         view.addSubview(txtDetail)
         
         //Label Actor
@@ -90,8 +91,6 @@ class DetailViewController: UIViewController {
         view.addSubview(lblDirector)
         
         loadConstraints()
-        
-        
     }
     
     @objc func btnPlayPush(sender: UIButton) {
@@ -125,8 +124,6 @@ class DetailViewController: UIViewController {
             btnPlay.heightAnchor.constraint(equalToConstant: 40)
             ])
         
-        
-        
         txtDetail.translatesAutoresizingMaskIntoConstraints = false
         
         view.addConstraints([
@@ -153,7 +150,5 @@ class DetailViewController: UIViewController {
             lblDirector.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10.0),
             lblDirector.heightAnchor.constraint(equalToConstant: 20)
             ])
-        
     }
-
 }

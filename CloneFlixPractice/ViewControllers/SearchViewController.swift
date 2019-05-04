@@ -24,7 +24,6 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
         view = UIView()
         view.backgroundColor = .darkGray
         
-        //searchBar = UISearchBar(frame:CGRect(x:0.0,y:100.0,width:self.view.bounds.size.width,height:44.0))
         searchBar.delegate = self
         searchBar.showsSearchResultsButton = true
         searchBar.keyboardType = UIKeyboardType.default
@@ -35,31 +34,12 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
         searchBar.barTintColor = .black
         self.view.addSubview(searchBar)
         
-        
-//        let collectionView = UICollectionView(
-//            frame: CGRect(x: 0, y: statusBarHeight, width: self.view.frame.width, height: self.view.frame.size.height - statusBarHeight),
-//            collectionViewLayout: UICollectionViewFlowLayout())
-//
-//        collectionView.backgroundColor = UIColor.white  // アイテム表示領域を白色に設定
-//        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: cellId)  // セルの再利用のための設定
-//
-//        collectionView.delegate = self
-//        collectionView.dataSource = self
-//        self.view.addSubview(collectionView)
-        
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraints([
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             searchBar.widthAnchor.constraint(equalTo: view.widthAnchor),
             searchBar.heightAnchor.constraint(equalToConstant: 60)
             ])
-        
-//        collectionView.translatesAutoresizingMaskIntoConstraints = false
-//        view.addConstraints([
-//            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-//            collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
-//            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
-//            ])
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -85,10 +65,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
                         break
                     }
                 }
-                
                 semaphore.signal()
-                
-                
+
             } catch {
                 print("error:", error.localizedDescription)
             }
@@ -112,18 +90,14 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
             collectionView.widthAnchor.constraint(equalTo: view.widthAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
             ])
-        
-        searchBar.text = "omedetou"
     }
     
-    
-    
-    // 表示するアイテムの数を設定（UICollectionViewDataSource が必要）
+    // 表示するアイテムの数を設定　Set the number of items to display（UICollectionViewDataSource が必要）
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return self.imgList.count
     }
     
-    // アイテムの大きさを設定（UICollectionViewDelegateFlowLayout が必要）
+    // アイテムの大きさを設定　Set item size（UICollectionViewDelegateFlowLayout が必要）
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         
         let size = self.view.frame.width / 4
@@ -131,38 +105,33 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
         return CGSize(width: size, height: size)
     }
     
-    // アイテム表示領域全体の上下左右の余白を設定（UICollectionViewDelegateFlowLayout が必要）
+    // アイテム表示領域全体の上下左右の余白を設定　（UICollectionViewDelegateFlowLayout が必要）
+    //　Set the top, bottom, left and right margins of the entire item display area
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        let inset =  (self.view.frame.width / 3) / 4
+        let inset =  (self.view.frame.width / 5) / 7
         
         return UIEdgeInsets(top: inset, left: inset, bottom: inset, right: inset)
     }
     
-    // アイテムの上下の余白の最小値を設定（UICollectionViewDelegateFlowLayout が必要）
+    // アイテムの上下の余白の最小値を設定 （UICollectionViewDelegateFlowLayout が必要）
+    //Set the minimum value of the top and bottom margins of the item
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return (self.view.frame.width / 4) / 3
     }
     
-    // アイテムの表示内容（UICollectionViewDataSource が必要）
+    // アイテムの表示内容 Item display contents（UICollectionViewDataSource が必要）
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         
-        // アイテムを作成
+        // アイテムを作成 Create item
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellId, for: indexPath)
         cell.backgroundColor = UIColor.lightGray
         
         // アイテムセルを再利用する際、前に追加していた要素（今回はラベル）を削除する
+        //When reusing item cells, delete the element (in this case, the label) added previously
         for subview in cell.contentView.subviews {
             subview.removeFromSuperview()
         }
-        
-        // テキストラベルを設定して表示
-//        let label = UILabel()
-//        label.font = UIFont(name: "Arial", size: 24)
-//        label.text = "Item \(indexPath.row)"
-//        label.sizeToFit()
-//        label.center = cell.contentView.center
-//        cell.contentView.addSubview(label)
         
         let imgView = UIImageView(image: imgList[indexPath.row])
         
@@ -172,14 +141,21 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
         imgView.centerXAnchor.constraint(equalTo: cell.centerXAnchor).isActive = true
         imgView.widthAnchor.constraint(equalToConstant: 120).isActive = true
         imgView.heightAnchor.constraint(equalToConstant: 180).isActive = true
-        
-        
+
         return cell
     }
     
-    // アイテムタッチ時の処理（UICollectionViewDelegate が必要）
+    // アイテムタッチ時の処理 Item touch process（UICollectionViewDelegate が必要）
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print(indexPath.row)
+        
+        let nextvc = DetailViewController()
+        
+        
+        
+        
+        nextvc.selectedURL = "\(directFlix.search.rawValue)"  //選択されたイメージのURLを追記する
+        self.navigationController?.pushViewController(nextvc, animated: false)
+        
     }
     
     override func didReceiveMemoryWarning() {
