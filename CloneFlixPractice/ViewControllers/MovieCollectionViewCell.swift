@@ -20,7 +20,6 @@ class MovieCollectionViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        
         imgView.isUserInteractionEnabled = true
         
         self.addSubview(imgView)

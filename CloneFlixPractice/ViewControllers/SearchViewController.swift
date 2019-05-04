@@ -15,7 +15,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
     let statusBarHeight = UIApplication.shared.statusBarFrame.height  // ステータスバーの高さ
     let cellId = "itemCell" // セル再利用のための固有名
     
-    var imgList = [UIImage]()
+    var imgList = [searchMovieUIImage]()
     
     
     override func viewDidLoad() {
@@ -59,7 +59,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
                     let url: NSURL = NSURL(string:poster.poster_url ?? "")!
                     let imageData :NSData = try NSData(contentsOf: url as URL)
                     let imgView: UIImage = UIImage(data: imageData as Data) ?? UIImage()
-                    self.imgList.append(imgView)
+                    self.imgList.append(searchMovieUIImage(model: poster, image: imgView))
                     
                     if self.imgList.count > 10 {
                         break
@@ -133,7 +133,7 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
             subview.removeFromSuperview()
         }
         
-        let imgView = UIImageView(image: imgList[indexPath.row])
+        let imgView = UIImageView(image: imgList[indexPath.row].image)
         
         cell.contentView.addSubview(imgView)
         
@@ -149,11 +149,8 @@ class SearchViewController: UIViewController, UISearchBarDelegate, UICollectionV
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
         let nextvc = DetailViewController()
-        
-        
-        
-        
-        nextvc.selectedURL = "\(directFlix.search.rawValue)"  //選択されたイメージのURLを追記する
+        let model = imgList[indexPath.row].model
+        nextvc.selectedURL = "\(directFlix.select.rawValue)\(model.id)"  //選択されたイメージのURLを追記する
         self.navigationController?.pushViewController(nextvc, animated: false)
         
     }

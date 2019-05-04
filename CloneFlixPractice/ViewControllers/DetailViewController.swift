@@ -26,24 +26,27 @@ class DetailViewController: UIViewController {
         view = UIView()
         view.backgroundColor = .darkGray
         
-        //let params = ["id": "c7cca58c-e0e9-44c5-89e9-2de265409cc6"] as [String : Any]
+        let blurEffect = UIBlurEffect(style: .dark)  // ブラーエフェクトを作成
+        let visualEffectView = UIVisualEffectView(effect: blurEffect)  // ブラーエフェクトからエフェクトビューを作成
+        visualEffectView.frame = self.view.frame  // エフェクトビューのサイズを画面に合わせる
+        self.view.addSubview(visualEffectView)
         
-        if selectedURL != nil
-        {
+        if selectedURL != nil {
+            
             request(selectedURL!, method: .get).responseJSON(completionHandler: { (response) in
                 
                 let decoder: JSONDecoder = JSONDecoder()
                 do {
-                    let searchMovie = try decoder.decode([SearchMovie].self, from: response.data!)
+                    let searchMovie = try decoder.decode(SearchMovie.self, from: response.data!)
                     
-                    let url: NSURL = NSURL(string:searchMovie[0].poster_url ?? "")!
+                    let url: NSURL = NSURL(string:searchMovie.poster_url ?? "")!
                     let imageData :NSData = try NSData(contentsOf: url as URL)
                     self.imgMovie.image = UIImage(data: imageData as Data)
                     
-                    self.lblInfo.text = searchMovie[0].series_years
-                    self.txtDetail.text = searchMovie[0].plot
-                    self.lblActors.text = "Actors: \(searchMovie[0].actors)"
-                    self.lblDirector.text = "Director: \(searchMovie[0].director)"
+                    self.lblInfo.text = searchMovie.series_years
+                    self.txtDetail.text = searchMovie.plot
+                    self.lblActors.text = "Actors: \(searchMovie.actors)"
+                    self.lblDirector.text = "Director: \(searchMovie.director)"
                     
                 } catch {
                     print("error:", error.localizedDescription)
@@ -59,8 +62,7 @@ class DetailViewController: UIViewController {
             let imgWidth:CGFloat = imgMovie.image!.size.width
             let imgHeight:CGFloat = imgMovie.image!.size.height
             let scale:CGFloat = screenWidth / imgWidth
-            let rect:CGRect =
-                CGRect(x:0, y:0, width:imgWidth*scale, height:imgHeight*scale)
+            let rect:CGRect = CGRect(x:0, y:0, width:imgWidth*scale, height:imgHeight*scale)
             imgMovie.frame = rect
             imgMovie.center = CGPoint(x:screenWidth/2, y:screenHeight/2)
         }
@@ -94,7 +96,7 @@ class DetailViewController: UIViewController {
     }
     
     @objc func btnPlayPush(sender: UIButton) {
-        //source_url
+
         self.navigationController?.popViewController(animated: false)
     }
     
@@ -132,10 +134,7 @@ class DetailViewController: UIViewController {
             txtDetail.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10.0),
             txtDetail.heightAnchor.constraint(equalToConstant: 100)
             ])
-        
-//        let height = txtDetail.sizeThatFits(CGSize(width: txtDetail.frame.size.width, height: CGFloat.greatestFiniteMagnitude)).height
-//        txtDetail.heightAnchor.constraint(equalToConstant: height).isActive = true
-        
+ 
         lblActors.translatesAutoresizingMaskIntoConstraints = false
         view.addConstraints([
             lblActors.topAnchor.constraint(equalTo: txtDetail.bottomAnchor, constant: 10.0),

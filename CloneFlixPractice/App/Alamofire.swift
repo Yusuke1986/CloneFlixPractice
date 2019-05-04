@@ -9,6 +9,16 @@
 import UIKit
 import Alamofire
 
+enum directFlix: String {
+    case select = "https://directflix.vnz.la/titles/"
+    case search = "https://directflix.vnz.la/titles/search?q="
+    case tvshow = "https://directflix.vnz.la/titles/tv-shows"
+    case movie = "https://directflix.vnz.la/titles/movies"
+    case recentlyAdded = "https://directflix.vnz.la/titles/recently-added"
+    case trendingNow = "https://directflix.vnz.la/titles/trending-now"
+}
+
+
 struct SearchMovie: Codable {
     
     var id: String
@@ -31,6 +41,13 @@ struct SearchMovie: Codable {
     //    let rating: Int?
     //    let created_at: String?
     //    let updated_at: String?
+    
+}
+
+struct searchMovieUIImage {
+    
+    var model: SearchMovie
+    var image: UIImage?
 }
 
 

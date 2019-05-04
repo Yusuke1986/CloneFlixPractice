@@ -37,7 +37,6 @@ class MainTabBarController: UITabBarController {
         
         let controllers = [homeNavController, searchNavController, detailNavController]
 
-        
         self.setViewControllers(controllers, animated: false)
     }
 }

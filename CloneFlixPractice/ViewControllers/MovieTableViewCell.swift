@@ -15,8 +15,8 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     var imageTap: (() -> Void)?
     
     override func awakeFromNib() {
-        super.awakeFromNib()
         
+        super.awakeFromNib()
         // Initialization code
     }
 
@@ -42,10 +42,10 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
         collectionView?.translatesAutoresizingMaskIntoConstraints = false
         collectionView?.widthAnchor.constraint(equalTo: self.widthAnchor).isActive = true
         collectionView?.heightAnchor.constraint(equalTo: self.heightAnchor).isActive = true
-        
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        
         return imgList.count
     }
     
@@ -53,8 +53,8 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
         
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath) as! MovieCollectionViewCell
         
-        if imgList.count > indexPath.row
-        {
+        if imgList.count > indexPath.row {
+            
             cell.configure(img: imgList[indexPath.row])
         }
         
@@ -67,34 +67,20 @@ class MovieTableViewCell: UITableViewCell, UICollectionViewDataSource, UICollect
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         
-        //self.selectedURL = ""
         self.imageTap?()
         
     }
-    
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func configure(imglist: [UIImage], imageTap: @escaping () -> Void) {
+    func configure(imglist: [searchMovieUIImage], imageTap: @escaping () -> Void) {
        
         self.imageTap = imageTap
+        
         for img in imglist {
-            imgList.append(img)
+            imgList.append(img.image ?? UIImage())
         }
-        
-        
-        
-        
-       
-//        collectionView?.performBatchUpdates({ () -> Void in
-//            
-//            let items = [IndexPath(item: 0, section: 0)]
-//            self.collectionView?.insertItems(at: items)
-//        }, completion:nil)
-        
-        
     }
-    
 }

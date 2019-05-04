@@ -9,20 +9,12 @@
 import UIKit
 import Alamofire
 
-enum directFlix: String {
-    case search = "https://directflix.vnz.la/titles/search?q="
-    case tvshow = "https://directflix.vnz.la/titles/tv-shows"
-    case movie = "https://directflix.vnz.la/titles/movies"
-    case recentlyAdded = "https://directflix.vnz.la/titles/recently-added"
-    case trendingNow = "https://directflix.vnz.la/titles/trending-now"
-}
-
 
 class HomeViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
 
     var tableView: UITableView?
-    var imgList = [UIImage]()
-    var selectedURL: String?
+    var imgList = [searchMovieUIImage]()
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,27 +37,19 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
                         let url: NSURL = NSURL(string:poster.poster_url ?? "")!
                         let imageData :NSData = try NSData(contentsOf: url as URL)
                         let imgView: UIImage = UIImage(data: imageData as Data) ?? UIImage()
-                        self.imgList.append(imgView)
+                        self.imgList.append(searchMovieUIImage(model: poster, image: imgView))
 
                         if self.imgList.count > 10 {
                             break
                         }
                     }
-                    
                     semaphore.signal()
-                    
-                    
-                } catch {
+                }
+                catch {
                     print("error:", error.localizedDescription)
                 }
             })
             semaphore.wait()
-        
-        // Process to make navigation transparent ナビゲーションを透明にする処理
-        //self.navigationController!.navigationBar.alpha = 0.5
-        self.navigationController!.navigationBar.setBackgroundImage(UIImage(), for: .default)
-        self.navigationController!.navigationBar.shadowImage = UIImage()
-        
         
         //TableView
         self.tableView = {
@@ -90,8 +74,6 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
         super.didReceiveMemoryWarning()
     }
     
-    
-    
     //TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 2
@@ -109,7 +91,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     func imageTap() {
         
         let nextvc = DetailViewController()
-        nextvc.selectedURL = selectedURL
+        let model = imgList[0].model
+        
+        nextvc.selectedURL = "\(directFlix.select.rawValue)\(model.id)"
         self.navigationController?.pushViewController(nextvc, animated: false)
     }
     
