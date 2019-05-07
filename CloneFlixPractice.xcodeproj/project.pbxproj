@@ -151,9 +151,10 @@
 			isa = PBXGroup;
 			children = (
 				E6ED38EB226E18BB005BA968 /* Resouces */,
-				E6ED38C1226E15F2005BA968 /* Info.plist */,
-				E6ED38E4226E1628005BA968 /* App */,
+				E6ED38E4226E1628005BA968 /* Model */,
 				E6ED38E3226E161C005BA968 /* ViewControllers */,
+				E6F33FD92281DD8900E92CE2 /* View */,
+				E6ED38C1226E15F2005BA968 /* Info.plist */,
 			);
 			path = CloneFlixPractice;
 			sourceTree = "<group>";
@@ -183,20 +184,18 @@
 				E6ED38E7226E1673005BA968 /* SearchViewController.swift */,
 				E6ED38E9226E16A8005BA968 /* DetailViewController.swift */,
 				E6ED38EC226E2DDB005BA968 /* MainTabBarController.swift */,
-				E6ED9B8F2273A41B00FE6B12 /* MovieTableViewCell.swift */,
-				E6ED9B912274238A00FE6B12 /* MovieCollectionViewCell.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		E6ED38E4226E1628005BA968 /* App */ = {
+		E6ED38E4226E1628005BA968 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				E6ED38B5226E15F1005BA968 /* AppDelegate.swift */,
 				E6ED38BE226E15F2005BA968 /* LaunchScreen.storyboard */,
 				E6ED9B8D22723DA900FE6B12 /* Alamofire.swift */,
 			);
-			path = App;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		E6ED38EB226E18BB005BA968 /* Resouces */ = {
@@ -205,6 +204,15 @@
 				E6ED38BC226E15F2005BA968 /* Assets.xcassets */,
 			);
 			path = Resouces;
+			sourceTree = "<group>";
+		};
+		E6F33FD92281DD8900E92CE2 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				E6ED9B8F2273A41B00FE6B12 /* MovieTableViewCell.swift */,
+				E6ED9B912274238A00FE6B12 /* MovieCollectionViewCell.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

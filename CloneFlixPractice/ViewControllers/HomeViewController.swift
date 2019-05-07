@@ -19,6 +19,9 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationController?.navigationBar.barTintColor = .black
+        self.navigationController?.navigationBar.tintColor = .white
+        
         view = UIView()
         view.backgroundColor = .darkGray
         
@@ -76,16 +79,28 @@ class HomeViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     //TableView
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return 6
     }
     
     //TableView Cell Format
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! MovieTableViewCell
-        cell.configure(imglist: imgList, imageTap: self.imageTap)
-        self.tableView?.rowHeight = 180
-        return cell
+        if indexPath.row % 2 == 0 {
+            
+            let cell = UITableViewCell(style: UITableViewCell.CellStyle.default,
+                                       reuseIdentifier: "aaa\(indexPath.section)-\(indexPath.row)")
+            cell.textLabel?.text = "Movie"
+            self.tableView?.rowHeight = 40
+            return cell
+        }
+        else {
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "cell") as! MovieTableViewCell
+            cell.configure(imglist: imgList, imageTap: self.imageTap)
+            self.tableView?.rowHeight = 180
+            return cell
+            
+        }
     }
     
     func imageTap() {

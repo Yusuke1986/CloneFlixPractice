@@ -16,7 +16,9 @@ class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
+        self.tabBar.barTintColor = .black
+        
         let homeViewController = HomeViewController()
         let searchViewController = SearchViewController()
         let detailViewController = DetailViewController()
